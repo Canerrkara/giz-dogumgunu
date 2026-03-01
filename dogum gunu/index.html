@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>İyi Ki Doğdun Gizim!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --papatya: #ffeb3b;
+            --rose: #d63384;
+            --glass: rgba(255, 255, 255, 0.6);
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; min-height: 100%;
+            background: radial-gradient(circle at center, #fff5f7 0%, #ffe4e8 100%);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* HAREKETLİ ARKA PLAN IŞIKLARI */
+        .bg-glow {
+            position: fixed; width: 300px; height: 300px;
+            background: var(--papatya); filter: blur(120px);
+            border-radius: 50%; opacity: 0.2; z-index: -1;
+            animation: moveGlow 20s infinite alternate;
+        }
+
+        @keyframes moveGlow {
+            0% { top: -10%; left: -10%; }
+            100% { top: 80%; left: 80%; }
+        }
+
+        /* GİRİŞ EKRANI */
+        #overlay {
+            position: fixed; inset: 0;
+            background: #fff;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 2000;
+            transition: 1s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+
+        /* PAPATYA BUTONU */
+        .daisy-trigger {
+            width: 140px; height: 140px; cursor: pointer; position: relative;
+        }
+        .center-circle {
+            position: absolute; top: 50%; left: 50%;
+            width: 40px; height: 40px; background: var(--papatya);
+            border-radius: 50%; transform: translate(-50%, -50%);
+            z-index: 2; box-shadow: 0 0 30px rgba(255, 235, 59, 0.8);
+        }
+        .petal {
+            position: absolute; top: 50%; left: 50%;
+            width: 30px; height: 60px; background: #fff;
+            border-radius: 50%; transform-origin: center bottom;
+            border: 1px solid #f0f0f0;
+        }
+
+        /* ANA İÇERİK */
+        #main-content {
+            opacity: 0; display: none;
+            flex-direction: column; align-items: center;
+            padding: 40px 20px;
+        }
+
+        header h1 { 
+            font-family: 'Great Vibes', cursive; font-size: 3.5rem; 
+            color: #222; margin: 0; text-shadow: 2px 2px 0 rgba(255,255,255,0.5);
+        }
+
+        /* MODERN GALERİ KARTLARI */
+        .gallery { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 50px; }
+
+        .photo-card {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 12px; border-radius: 30px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.5);
+            transform: scale(0.9); opacity: 0;
+            transition: 1s cubic-bezier(0.2, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .photo-card.visible { transform: scale(1); opacity: 1; }
+        .photo-card img { width: 100%; border-radius: 22px; display: block; }
+
+        .caption {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.6rem; text-align: center;
+            padding: 20px 10px 10px; color: #333;
+        }
+
+        /* KELEBEKLER */
+        .butterfly {
+            position: fixed; pointer-events: none; z-index: 1500;
+            font-size: 24px; animation: float 10s linear forwards;
+        }
+
+        @keyframes float {
+            0% { transform: translate(-10vw, 110vh) rotate(0deg); }
+            100% { transform: translate(110vw, -10vh) rotate(360deg); }
+        }
+
+        /* PATLAMA KELEBEĞİ */
+        .burst {
+            position: fixed; font-size: 30px; z-index: 2005;
+            animation: burstAnim 1.5s forwards ease-out;
+        }
+        @keyframes burstAnim {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(1.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop><source src="muzik.mp3" type="audio/mpeg"></audio>
+    <div class="bg-glow"></div>
+
+    <div id="overlay">
+        <div class="daisy-trigger" id="daisy" onclick="start()">
+            <div class="center-circle"></div>
+        </div>
+        <p style="margin-top: 50px; font-weight: 300; letter-spacing: 4px; color: #888; font-size: 0.7rem;">DOKUN 🌼</p>
+    </div>
+
+    <div id="main-content">
+        <header><h1>İyi Ki Doğdun!</h1></header>
+        <div class="gallery">
+            <div class="photo-card"><img src="resim1.jpeg"><div class="caption">Başımı yasladığım tek omuz.</div></div>
+            <div class="photo-card"><img src="resim2.jpeg"><div class="caption">Sığınabildiğim tek liman.</div></div>
+            <div class="photo-card"><img src="resim3.jpeg"><div class="caption">Huzur bulduğum evim.</div></div>
+            <div class="photo-card"><img src="resim4.jpeg"><div class="caption">İyi ki varsın hayatım.</div></div>
+            <div class="photo-card"><img src="resim5.jpeg"><div class="caption">İyi ki benimlesin sevgilim.</div></div>
+            <div class="photo-card"><img src="resim6.jpeg"><div class="caption">Her zerrene kurban olurum kelebeğim.</div></div>
+            <div class="photo-card"><img src="resim7.jpeg"><div class="caption">Dizlerinde hayatın durması benim tek imkansızım.</div></div>
+            <div class="photo-card"><img src="resim8.jpeg"><div class="caption">Geleceğe dair kurduğum en güzel düşümsün.</div></div>
+            <div class="photo-card"><img src="resim9.jpeg"><div class="caption">Ömrüme güneş olmaya devam et her şey geçecek.</div></div>
+            <div class="photo-card"><img src="resim10.jpeg"><div class="caption">Seni Çok Seviyorum, İyi Ki Doğdun Gizim 🖤</div></div>
+        </div>
+        <div style="height: 100px;"></div>
+    </div>
+
+    <script>
+        const daisy = document.getElementById('daisy');
+        for (let i = 0; i < 12; i++) {
+            const p = document.createElement('div');
+            p.className = 'petal';
+            p.style.transform = `translate(-50%, -100%) rotate(${i * 30}deg)`;
+            p.style.setProperty('--tx', (Math.random() * 600 - 300) + 'px');
+            p.style.setProperty('--ty', (Math.random() * 600 - 300) + 'px');
+            p.style.setProperty('--tr', (Math.random() * 1440 - 720) + 'deg');
+            daisy.appendChild(p);
+        }
+
+        function start() {
+            document.getElementById('bgMusic').play();
+            daisy.style.animation = "none";
+            daisy.classList.add('explode');
+            
+            // Kelebek patlaması
+            for(let i=0; i<25; i++) {
+                const b = document.createElement('div');
+                b.className = 'burst'; b.innerHTML = '🦋';
+                b.style.left = "50%"; b.style.top = "50%";
+                b.style.setProperty('--x', (Math.random() * 1000 - 500) + 'px');
+                b.style.setProperty('--y', (Math.random() * 1000 - 500) + 'px');
+                b.style.setProperty('--r', (Math.random() * 720) + 'deg');
+                document.body.appendChild(b);
+                setTimeout(() => b.remove(), 2000);
+            }
+
+            setTimeout(() => {
+                document.getElementById('overlay').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('overlay').style.display = 'none';
+                    document.getElementById('main-content').style.display = 'flex';
+                    setTimeout(() => {
+                        document.getElementById('main-content').style.opacity = '1';
+                        observe();
+                        setInterval(createButterfly, 1000);
+                    }, 100);
+                }, 1000);
+            }, 700);
+        }
+
+        function createButterfly() {
+            const b = document.createElement('div');
+            b.className = 'butterfly'; b.innerHTML = '🦋';
+            b.style.left = Math.random() * 100 + 'vw';
+            b.style.bottom = '-50px';
+            b.style.opacity = Math.random() * 0.4 + 0.3;
+            document.body.appendChild(b);
+            setTimeout(() => b.remove(), 10000);
+        }
+
+        function observe() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+            }, { threshold: 0.2 });
+            document.querySelectorAll('.photo-card').forEach(c => observer.observe(c));
+        }
+    </script>
+</body>
+</html>
